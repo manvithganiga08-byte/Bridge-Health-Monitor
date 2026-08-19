@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BridgeGuard AI Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Weather -->
+ <div id="weatherStatus">
+
+    <div id="weatherHeading">
+         WEATHER
+    </div>
+
+    <div id="weatherCurrent">
+        Loading weather...
+    </div>
+
+    <div id="weatherForecast">
+        Loading forecast...
+    </div>
+
+</div>
+
+    <!-- Theme Button -->
+    <button id="themeBtn" onclick="toggleTheme()">
+        🌙 Dark / ☀️ Light
+    </button>
+
+    <!-- Header -->
+    <header>
+        <h1>🌉 BridgeGuard </h1>
+        <p>Smart Bridge Health Monitoring & Decision Support System</p>
+    </header>
+
+    <!-- Health Overview -->
+    <section class="overview">
+
+        <div class="overview-card">
+            <h2>Bridge Health</h2>
+
+            <div class="progress">
+                <div class="progress-fill" id="bridgeHealth">
+                    87%
+                </div>
+            </div>
+
+        </div>
+
+        <div class="overview-card">
+
+            <h2>Overall Status</h2>
+
+            <h3 id="overallStatus" class="safe-text">
+                SAFE
+            </h3>
+
+        </div>
+
+        <div class="overview-card">
+
+            <h2>Date & Time</h2>
+
+            <h3 id="date"></h3>
+            <h3 id="time"></h3>
+
+        </div>
+
+    </section>
+
+
+    <!-- Bridge -->
+   
+   
+
+
+    <!-- Sensors -->
+    <section class="sensor-grid">
+
+        <!-- Tilt -->
+        <div class="sensor-card"
+            onclick="showSensor('tilt')">
+
+            <i class="fas fa-compass"></i>
+
+            <h3>Tilt Sensor</h3>
+
+            <p>Current: <span id="tiltValue">3.2°</span></p>
+
+        </div>
+
+
+        <!-- Vibration -->
+        <div class="sensor-card"
+            onclick="showSensor('vibration')">
+
+            <i class="fas fa-wave-square"></i>
+
+            <h3>Vibration</h3>
+
+            <p>Current: <span id="vibrationValue">18 Hz</span></p>
+
+        </div>
+
+
+        <!-- Temperature -->
+        <div class="sensor-card"
+            onclick="showSensor('temperature')">
+
+            <i class="fas fa-temperature-half"></i>
+
+            <h3>Temperature</h3>
+
+            <p>Current: <span id="temperatureValue">28°C</span></p>
+
+        </div>
+
+
+        <!-- Humidity -->
+        <div class="sensor-card"
+            onclick="showSensor('humidity')">
+
+            <i class="fas fa-droplet"></i>
+
+            <h3>Humidity</h3>
+
+            <p>Current: <span id="humidityValue">72%</span></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Details Panel -->
+    <section id="detailsPanel">
+
+        <h2 id="sensorTitle">
+            Select Sensor
+        </h2>
+
+        <div class="details-grid">
+
+            <div class="detail-card">
+                <h3>Previous</h3>
+                <p id="previous"></p>
+            </div>
+
+            <div class="detail-card">
+                <h3>Current</h3>
+                <p id="current"></p>
+            </div>
+
+            <div class="detail-card">
+                <h3>Maximum Safe</h3>
+                <p id="maximum"></p>
+            </div>
+
+            <div class="detail-card">
+                <h3>Status</h3>
+                <p id="status"></p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Live Sensor Graphs -->
+<section class="graph-section">
+
+    <h2>Live Sensor Data</h2>
+
+    <div class="sensor-graphs">
+
+        <!-- Tilt -->
+        <div class="graph-card">
+            <h3>Tilt</h3>
+            <p>Current: <span id="tiltGraphValue">4.39</span>°</p>
+            <canvas id="tiltChart"></canvas>
+        </div>
+
+        <!-- Vibration -->
+        <div class="graph-card">
+            <h3>Vibration</h3>
+            <p>Current: <span id="vibrationGraphValue">18</span> Hz</p>
+            <canvas id="vibrationChart"></canvas>
+        </div>
+
+        <!-- Temperature -->
+        <div class="graph-card">
+            <h3>Temperature</h3>
+            <p>Current: <span id="temperatureGraphValue">28</span> °C</p>
+            <canvas id="temperatureChart"></canvas>
+        </div>
+
+        <!-- Humidity -->
+        <div class="graph-card">
+            <h3>Humidity</h3>
+            <p>Current: <span id="humidityGraphValue">72</span> %</p>
+            <canvas id="humidityChart"></canvas>
+        </div>
+
+    </div>
+
+</section>
+
+
+    <!-- AI Assessment -->
+    <section class="alerts">
+
+        <h2>AI Assessment</h2>
+
+        <ul>
+
+            <li>
+                <strong>Condition:</strong>
+                <span id="aiCondition">Normal</span>
+            </li>
+
+            <li>
+                <strong>Health Score:</strong>
+                <span id="aiScore">87/100</span>
+            </li>
+
+            <li>
+                <strong>Recommendation:</strong>
+                <span id="recommendation">
+                    No immediate maintenance required.
+                </span>
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- Alerts -->
+    <section class="alerts">
+
+        <h2>System Alerts</h2>
+
+        <ul id="alertList">
+
+            <li>✅ All monitored parameters are within safe limits.</li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>BridgeGuard AI © 2026</p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

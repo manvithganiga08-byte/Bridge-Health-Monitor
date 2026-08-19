@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+    transition: 0.5s;
+}
+
+/* Light Theme */
+
+body.light {
+    background: #f2f5ff;
+    color: #111;
+}
+
+/* Theme Button */
+
+#themeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #2979ff;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 15px;
+}
+
+/* Weather */
+
+#weatherStatus {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+}
+
+#weatherHeading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#weatherText {
+    font-size: 16px;
+}
+
+/* Header */
+
+header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #aaa;
+}
+
+/* Overview */
+
+.overview {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.overview-card {
+    background: rgba(255, 255, 255, 0.08);
+    width: 300px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Health Progress */
+
+.progress {
+    width: 100%;
+    height: 30px;
+    background: #222;
+    border-radius: 30px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-fill {
+    width: 87%;
+    height: 100%;
+    background: linear-gradient(90deg, #00c853, #00e676);
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: width 0.5s;
+}
+
+/* Status */
+
+.safe-text {
+    color: #00e676;
+    margin-top: 15px;
+}
+
+.warning-text {
+    color: #ffb300;
+    margin-top: 15px;
+}
+
+.danger-text {
+    color: #ff1744;
+    margin-top: 15px;
+}
+
+
+
+
+
+/* Bridge deck */
+
+.bridge-deck {
+    width: 700px;
+    max-width: 80%;
+    height: 25px;
+    background: #666;
+    position: absolute;
+
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border-radius: 5px;
+    z-index: 2;
+}
+/* Pillar hover */
+
+.pillar:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+/* Sensors */
+
+.sensor-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.sensor-card {
+    width: 250px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    text-align: center;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sensor-card:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.sensor-card i {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+/* Details */
+
+#detailsPanel {
+    width: 700px;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    display: none;
+}
+
+.details-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.detail-card {
+    width: 180px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #1d2636;
+    text-align: center;
+}
+
+/* Graph */
+
+.graph-section {
+    width: 900px;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+canvas {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+/* Alerts */
+
+.alerts {
+    width: 700px;
+    max-width: 90%;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.alerts li {
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #aaa;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    #themeBtn {
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    #weatherStatus {
+        top: 10px;
+        left: 10px;
+    }
+
+}
+body.light .overview-card,
+body.light .sensor-card,
+body.light #detailsPanel,
+body.light .alerts {
+    background: white;
+    color: #111;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+body.light header p,
+body.light footer {
+    color: #555;
+}
+body.light .detail-card {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* Weather */
+
+#weatherStatus {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+    width: 230px;
+}
+
+#weatherHeading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.currentWeather {
+    line-height: 1.6;
+}
+
+.currentWeather strong {
+    font-size: 16px;
+}
+
+.currentWeather div {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.currentWeather small {
+    color: #aaa;
+}
+
+.forecastTitle {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.forecastItem {
+    display: grid;
+    grid-template-columns: 45px 30px 1fr;
+    gap: 5px;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.forecastItem small {
+    grid-column: 3;
+    color: #aaa;
+}
+
+body.light .currentWeather small,
+body.light .forecastItem small {
+    color: #555;
+}
+#weatherStatus {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+    width: 240px;
+}
+
+#weatherHeading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.currentWeather {
+    line-height: 1.5;
+}
+
+.currentTemperature {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+.currentWeather small {
+    color: #aaa;
+}
+
+.forecastTitle {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.forecastItem {
+    display: grid;
+    grid-template-columns: 45px 30px 1fr;
+    gap: 5px;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.forecastItem small {
+    grid-column: 3;
+    color: #aaa;
+}
+
+body.light #weatherStatus {
+    color: #111;
+}
+
+body.light .currentWeather small,
+body.light .forecastItem small {
+    color: #555;
+}
