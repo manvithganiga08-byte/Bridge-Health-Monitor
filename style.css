@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   BODY
+   ========================================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #000000;
+    color: #ffffff;
+    transition: 0.5s;
+    padding-top: 150px;
+}
+
+/* =========================================
+   LIGHT THEME
+   ========================================= */
+
+body.light {
+    background: #f2f5ff;
+    color: #111111;
+}
+
+/* =========================================
+   TOP RIGHT CONTROLS
+   ========================================= */
+
+#topRightControls {
+    position: fixed;
+    top: 15px;
+    right: 25px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+/* =========================================
+   THEME BUTTON
+   ========================================= */
+
+#themeBtn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 230, 118, 0.45);
+    background: rgba(0, 230, 118, 0.10);
+    color: #00e676;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#themeBtn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.35);
+}
+
+/* Light mode theme button */
+
+body.light #themeBtn {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.5);
+    background: rgba(245, 158, 11, 0.10);
+}
+
+body.light #themeBtn:hover {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.35);
+}
+
+/* =========================================
+   DATE & TIME
+   ========================================= */
+
+#dateTime {
+    width: 190px;
+    padding: 12px 15px;
+    text-align: left;
+
+    background: rgba(0, 230, 118, 0.10);
+    border: 1px solid rgba(0, 230, 118, 0.45);
+    border-radius: 10px;
+
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.10);
+
+    color: #00e676;
+
+    backdrop-filter: blur(8px);
+
+    transition: all 0.3s ease;
+}
+
+.dateTimeLabel {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 230, 118, 0.25);
+}
+
+.dateTimeDate,
+.dateTimeTime,
+.dateTimeZone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.dt-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    opacity: 0.65;
+}
+
+#date {
+    font-weight: 600;
+}
+
+#time {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.dateTimeZone {
+    padding-top: 5px;
+    margin-top: 7px;
+    border-top: 1px solid rgba(0, 230, 118, 0.20);
+}
+
+/* =========================================
+   WEATHER
+   ========================================= */
+
+#weatherStatus {
+    position: fixed;
+    top: 20px;
+    left: 25px;
+    z-index: 9999;
+    width: 240px;
+}
+
+#weatherHeading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.currentWeather {
+    line-height: 1.5;
+}
+
+.currentWeather strong {
+    font-size: 16px;
+}
+
+.currentTemperature {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+.currentWeather small {
+    color: #aaa;
+}
+
+.forecastTitle {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.forecastItem {
+    display: grid;
+    grid-template-columns: 45px 30px 1fr;
+    gap: 5px;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.forecastItem small {
+    grid-column: 3;
+    color: #aaa;
+}
+
+body.light #weatherStatus {
+    color: #111;
+}
+
+body.light .currentWeather small,
+body.light .forecastItem small {
+    color: #555;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #aaa;
+}
+
+body.light header p {
+    color: #555;
+}
+
+/* =========================================
+   OVERVIEW
+   ========================================= */
+
+.overview {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.overview-card {
+    background: #0a0a0a;
+    width: 300px;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid #1f1f1f;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+body.light .overview-card {
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #dddddd;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   HEALTH STATUS
+   ========================================= */
+
+.safe-text {
+    color: #00e676;
+    margin-top: 15px;
+}
+
+.warning-text {
+    color: #ffb300;
+    margin-top: 15px;
+}
+
+.danger-text {
+    color: #ff1744;
+    margin-top: 15px;
+}
+
+/* =========================================
+   BRIDGE DECK
+   ========================================= */
+
+.bridge-deck {
+    width: 700px;
+    max-width: 80%;
+    height: 25px;
+    background: #666;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    z-index: 2;
+}
+
+.pillar:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+
+/* =========================================
+   SENSORS
+   ========================================= */
+
+.sensor-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.sensor-card {
+    width: 250px;
+    padding: 25px;
+    border-radius: 20px;
+
+    /* TRUE DARK MODE */
+    background: #0a0a0a;
+
+    border: 1px solid #1f1f1f;
+
+    text-align: center;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sensor-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.sensor-card i {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+body.light .sensor-card {
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #dddddd;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   DETAILS
+   ========================================= */
+
+#detailsPanel {
+    width: 700px;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 20px;
+
+    background: #0a0a0a;
+    border: 1px solid #1f1f1f;
+
+    display: none;
+}
+
+body.light #detailsPanel {
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #dddddd;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+.details-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.detail-card {
+    width: 180px;
+    padding: 20px;
+    border-radius: 15px;
+
+    background: #050505;
+    border: 1px solid #202020;
+
+    text-align: center;
+}
+
+body.light .detail-card {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #dddddd;
+}
+
+/* =========================================
+   GRAPHS
+   ========================================= */
+
+.graph-section {
+    width: 900px;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+canvas {
+    background: #050505;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+body.light canvas {
+    background: #ffffff;
+}
+
+/* =========================================
+   ALERTS
+   ========================================= */
+
+.alerts {
+    width: 700px;
+    max-width: 90%;
+    margin: 50px auto;
+
+    background: #0a0a0a;
+
+    border: 1px solid #1f1f1f;
+
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.alerts li {
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+body.light .alerts {
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #dddddd;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #aaa;
+}
+
+body.light footer {
+    color: #555;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    #topRightControls {
+        top: 10px;
+        right: 10px;
+        gap: 6px;
+    }
+
+    #themeBtn {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    #dateTime {
+        width: 180px;
+        font-size: 12px;
+    }
+
+    #weatherStatus {
+        top: 10px;
+        left: 10px;
+        width: 200px;
+    }
+}

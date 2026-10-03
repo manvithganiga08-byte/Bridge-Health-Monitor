@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BridgeGuard AI - Bridge Search</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+        }
+
+        /* =====================================
+           HEADER
+           ===================================== */
+
+        header {
+
+            height: 90px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 35px;
+
+            background: #050505;
+
+            border-bottom: 1px solid #222;
+
+        }
+
+        header h1 {
+
+            font-size: 28px;
+
+            color: #00e676;
+
+        }
+
+        header p {
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-top: 4px;
+
+        }
+
+
+        /* =====================================
+           SEARCH
+           ===================================== */
+
+        .search-container {
+
+            position: absolute;
+
+            top: 110px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            z-index: 1000;
+
+            width: 430px;
+
+            max-width: 90%;
+
+        }
+
+
+        .search-box {
+
+            display: flex;
+
+            background: #111;
+
+            border: 1px solid #333;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.5);
+
+        }
+
+
+        #bridgeSearch {
+
+            flex: 1;
+
+            padding: 14px 16px;
+
+            border: none;
+
+            outline: none;
+
+            background: #111;
+
+            color: white;
+
+            font-size: 15px;
+
+        }
+
+
+        #bridgeSearch::placeholder {
+
+            color: #777;
+
+        }
+
+
+        #searchBtn {
+
+            width: 55px;
+
+            border: none;
+
+            background: #00c853;
+
+            color: white;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+        }
+
+
+        #searchBtn:hover {
+
+            background: #00e676;
+
+        }
+
+
+        /* =====================================
+           SEARCH RESULTS
+           ===================================== */
+
+        #searchResults {
+
+            display: none;
+
+            margin-top: 5px;
+
+            background: #111;
+
+            border: 1px solid #333;
+
+            border-radius: 8px;
+
+            overflow: hidden;
+
+        }
+
+
+        .search-result {
+
+            padding: 12px 15px;
+
+            cursor: pointer;
+
+            border-bottom: 1px solid #222;
+
+        }
+
+
+        .search-result:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .search-result:hover {
+
+            background: #1b1b1b;
+
+        }
+
+
+        .result-title {
+
+            color: #00e676;
+
+            font-weight: bold;
+
+        }
+
+
+        .result-location {
+
+            color: #999;
+
+            font-size: 12px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .result-status {
+
+            margin-top: 6px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+        .status-online {
+
+            color: #00e676;
+
+        }
+
+
+        .status-locked {
+
+            color: #ff9800;
+
+        }
+
+
+        /* =====================================
+           MAP
+           ===================================== */
+
+        #map {
+
+            width: 100%;
+
+            height: calc(100vh - 90px);
+
+        }
+
+
+        /* =====================================
+           POPUP
+           ===================================== */
+
+        .bridge-popup {
+
+            min-width: 230px;
+
+            text-align: left;
+
+        }
+
+
+        .bridge-popup h3 {
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .bridge-location {
+
+            color: #555;
+
+            font-size: 13px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .monitoring-status {
+
+            padding: 8px;
+
+            border-radius: 6px;
+
+            margin-bottom: 12px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .online-status {
+
+            background: #e8f5e9;
+
+            color: #008c3a;
+
+        }
+
+
+        .locked-status {
+
+            background: #fff3e0;
+
+            color: #e65100;
+
+        }
+
+
+        .last-data {
+
+            color: #777;
+
+            font-size: 11px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .dashboard-btn {
+
+            width: 100%;
+
+            border: none;
+
+            background: #00c853;
+
+            color: white;
+
+            padding: 9px 14px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: #00e676;
+
+        }
+
+
+        .no-access-btn {
+
+            background: #555;
+
+        }
+
+
+        .no-access-btn:hover {
+
+            background: #777;
+
+        }
+
+
+        /* =====================================
+           NO ACCESS MODAL
+           ===================================== */
+
+        #accessModal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.75);
+
+            z-index: 5000;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .access-box {
+
+            width: 350px;
+
+            max-width: 90%;
+
+            background: #0b0b0b;
+
+            border: 1px solid #333;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,0.8);
+
+        }
+
+
+        .access-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .access-box h2 {
+
+            color: #ff9800;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .access-box p {
+
+            color: #aaa;
+
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .close-modal {
+
+            border: none;
+
+            background: #222;
+
+            color: white;
+
+            padding: 9px 20px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+        }
+
+
+        .close-modal:hover {
+
+            background: #333;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+           ===================================== */
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 0 15px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 22px;
+
+            }
+
+
+            header p {
+
+                font-size: 11px;
+
+            }
+
+
+            .search-container {
+
+                top: 105px;
+
+                width: 90%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         HEADER
+         ===================================== -->
+
+    <header>
+
+        <div>
+
+            <h1>🌉 BridgeGuard AI</h1>
+
+            <p>
+                Smart Bridge Health Monitoring & Decision Support System
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================
+         SEARCH
+         ===================================== -->
+
+    <div class="search-container">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="bridgeSearch"
+                placeholder="Search for a bridge..."
+                autocomplete="off"
+            >
+
+            <button
+                id="searchBtn"
+                onclick="searchBridge()">
+
+                🔍
+
+            </button>
+
+        </div>
+
+
+        <div id="searchResults"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         MAP
+         ===================================== -->
+
+    <div id="map"></div>
+
+
+    <!-- =====================================
+         ACCESS MODAL
+         ===================================== -->
+
+    <div id="accessModal">
+
+        <div class="access-box">
+
+            <div class="access-icon">
+                🔒
+            </div>
+
+            <h2>
+                ACCESS RESTRICTED
+            </h2>
+
+            <p>
+                You do not have permission to access
+                the live monitoring data for this bridge.
+            </p>
+
+            <button
+                class="close-modal"
+                onclick="closeAccessModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEAFLET -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+
+    <script>
+
+        /* =====================================
+           MAP
+           ===================================== */
+
+        const map = L.map("map").setView(
+            [13.02, 74.90],
+            11
+        );
+
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution:
+                    '&copy; OpenStreetMap contributors'
+            }
+        ).addTo(map);
+
+
+        /* =====================================
+           BRIDGE DATA
+           ===================================== */
+
+        const bridges = [
+
+            {
+                name: "Yenepoya Bridge",
+
+                location:
+                    "Yenepoya Institute of Technology, Moodbidri",
+
+                lat: 13.044745,
+
+                lng: 74.977479,
+
+                access: true,
+
+                status: "MONITORING ACTIVE"
+            },
+
+
+            {
+                name: "Ullal Bridge",
+
+                location:
+                    "Ullal, Mangaluru",
+
+                lat: 12.8391,
+
+                lng: 74.8601,
+
+                access: false,
+
+                status: "ACCESS RESTRICTED"
+            },
+
+
+            {
+                name: "Gurupura Bridge",
+
+                location:
+                    "Gurupura, Mangaluru",
+
+                lat: 12.9513,
+
+                lng: 74.9910,
+
+                access: false,
+
+                status: "ACCESS RESTRICTED"
+            }
+
+        ];
+
+
+        /* =====================================
+           CURRENT MARKER
+           ===================================== */
+
+        let currentMarker = null;
+
+
+        /* =====================================
+           SEARCH
+           ===================================== */
+
+        function searchBridge() {
+
+            const input =
+                document
+                .getElementById("bridgeSearch")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            const results =
+                document.getElementById("searchResults");
+
+
+            results.innerHTML = "";
+
+
+            if (input === "") {
+
+                results.style.display = "none";
+
+                return;
+
+            }
+
+
+            const matches = bridges.filter(
+                bridge =>
+
+                    bridge.name
+                    .toLowerCase()
+                    .includes(input)
+
+                    ||
+
+                    bridge.location
+                    .toLowerCase()
+                    .includes(input)
+            );
+
+
+            if (matches.length === 0) {
+
+                results.innerHTML = `
+
+                    <div class="search-result">
+
+                        <div class="result-title">
+                            No bridge found
+                        </div>
+
+                        <div class="result-location">
+                            Try Yenepoya, Ullal or Gurupura
+                        </div>
+
+                    </div>
+
+                `;
+
+                results.style.display = "block";
+
+                return;
+
+            }
+
+
+            matches.forEach(bridge => {
+
+                const result =
+                    document.createElement("div");
+
+
+                result.className =
+                    "search-result";
+
+
+                const statusClass =
+                    bridge.access
+                    ? "status-online"
+                    : "status-locked";
+
+
+                result.innerHTML = `
+
+                    <div class="result-title">
+
+                        ${bridge.access ? "🟢" : "🔒"}
+
+                        ${bridge.name}
+
+                    </div>
+
+                    <div class="result-location">
+
+                        ${bridge.location}
+
+                    </div>
+
+                    <div class="result-status ${statusClass}">
+
+                        ${bridge.status}
+
+                    </div>
+
+                `;
+
+
+                result.onclick = function() {
+
+                    selectBridge(bridge);
+
+                };
+
+
+                results.appendChild(result);
+
+            });
+
+
+            results.style.display = "block";
+
+        }
+
+
+        /* =====================================
+           SELECT BRIDGE
+           ===================================== */
+
+        function selectBridge(bridge) {
+
+            const results =
+                document.getElementById("searchResults");
+
+
+            results.style.display = "none";
+
+
+            document.getElementById("bridgeSearch").value =
+                bridge.name;
+
+
+            if (currentMarker) {
+
+                map.removeLayer(currentMarker);
+
+            }
+
+
+            /*
+             * Smoothly move to bridge
+             */
+
+            map.flyTo(
+                [bridge.lat, bridge.lng],
+                15,
+                {
+                    duration: 1.5
+                }
+            );
+
+
+            currentMarker =
+                L.marker([
+                    bridge.lat,
+                    bridge.lng
+                ]).addTo(map);
+
+
+            /* =================================
+               MY BRIDGE
+               ================================= */
+
+            if (bridge.access) {
+
+                currentMarker.bindPopup(`
+
+                    <div class="bridge-popup">
+
+                        <h3>
+                            🟢 ${bridge.name}
+                        </h3>
+
+                        <div class="bridge-location">
+
+                            ${bridge.location}
+
+                        </div>
+
+
+                        <div class="monitoring-status online-status">
+
+                            ● MONITORING ACTIVE
+
+                        </div>
+
+
+                        <div class="last-data">
+
+                            Last data received:
+                            <span id="lastData">
+                                Just now
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            class="dashboard-btn"
+                            onclick="openDashboard()">
+
+                            Open Bridge Dashboard
+
+                        </button>
+
+                    </div>
+
+                `).openPopup();
+
+            }
+
+
+            /* =================================
+               RESTRICTED BRIDGE
+               ================================= */
+
+            else {
+
+                currentMarker.bindPopup(`
+
+                    <div class="bridge-popup">
+
+                        <h3>
+                            🔒 ${bridge.name}
+                        </h3>
+
+                        <div class="bridge-location">
+
+                            ${bridge.location}
+
+                        </div>
+
+
+                        <div class="monitoring-status locked-status">
+
+                            ● ACCESS RESTRICTED
+
+                        </div>
+
+
+                        <button
+                            class="dashboard-btn no-access-btn"
+                            onclick="showNoAccess()">
+
+                            Open Bridge Dashboard
+
+                        </button>
+
+                    </div>
+
+                `).openPopup();
+
+            }
+
+        }
+
+
+        /* =====================================
+           OPEN SENSOR DASHBOARD
+           ===================================== */
+
+        function openDashboard() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /* =====================================
+           NO ACCESS MODAL
+           ===================================== */
+
+        function showNoAccess() {
+
+            document.getElementById(
+                "accessModal"
+            ).style.display = "flex";
+
+        }
+
+
+        function closeAccessModal() {
+
+            document.getElementById(
+                "accessModal"
+            ).style.display = "none";
+
+        }
+
+
+        /* =====================================
+           ENTER KEY
+           ===================================== */
+
+        document
+            .getElementById("bridgeSearch")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        searchBridge();
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================
+           LIVE SEARCH
+           ===================================== */
+
+        document
+            .getElementById("bridgeSearch")
+            .addEventListener(
+                "input",
+                searchBridge
+            );
+
+    </script>
+
+</body>
+
+</html>
